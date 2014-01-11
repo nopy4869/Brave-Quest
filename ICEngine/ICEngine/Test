@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <ncurses.h>
+#define TRUE "asdf"
+int main()
+{
+	initscr();
+	scrollok(stdscr, TRUE);
+	attron(
+	for(;;)
+	{
+		
+	}
+};

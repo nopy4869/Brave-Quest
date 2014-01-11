@@ -1,0 +1,67 @@
+Enemy file:
+
+
+6 types of data:
+-Class Table [272] [16]
+-Equation table [40] [8]
+-Enemy table [256] [16]
+-Character table [16] [16]
+-Group table [256] [16]
+-Item table [256] [16]
+
+Anatomy of a Class string:
+-First 9 bytes are used for the class name, the last byte being NUL, or '\0'
+-The next 7 bytes are used for the equations governing the stats for the class in the following order
+
+ -health from level			//HP												//Nothing
+ -attack from level			//Physical Damage									//ability to do certain things or use certain equipment
+ -defence from level		//Resistance to Physical Damage						//Nothing
+ -wisdom from level			//Power of magical attacks							//Possibly lower store prices?
+ -resistance from level		//Affects probability of getting poisoned etc.		//Possibly less effect for poisioning etc.
+ -speed from level			//Affects Enemy accuracy and who hits first			//nothing
+ -luck from level			//Affects own accuracy for everything & crits		//amount of loot from chests etc.
+
+Anatomy of an equation:
+-8 numbers for an equation
+ -  [0]x^7+[1]x^6+[2]x^5+[3]x^4+[4]x^3+[5]x^2+[6]x+[7]
+ -Where [#] represents the number stored as byte number # of the equation in the table
+
+Anatomy of an Enemy string:
+-Bytes 0 - 12 are a nul terminated string, the Enemy's name
+-Byte 13 is the letter displayed in battle for this enemy
+-Byte 14 is the class of the enemy
+-Byte 15 is the ai used by the enemy
+
+Anatomy of a character string:
+-Bytes 0 - 12 are a nul terminated string, the Character's default name
+-Byte 13 is the letter displayed in battle for this Character
+-Byte 14 is the Level by Experience number
+-Byte 15 is the class number
+
+Anatomy of a group:
+-Bytes 0 - 15 are used to store the enemy number then the level offset in that order for each of the 8 different enemies.
+
+Anatomy of an item string:
+Anatomy of a character string:
+-Bytes 0 - 11 are a nul terminated string, the Character's default name
+-Byte 12 is the letter displayed for this item
+-Byte 13 is the length of time (in seconds) this item lasts for
+-Byte 14 is the attribute number
+-Byte 15 is the amount to add (or subtract) from the named attribute
+
+Notes:
+-Classes can be used for both enemies and characters. Not only that, but since the enemies don't
+ actually need to keep track of experience they don't need an Experience to Level equation.
+
+-The game should generate a table saying the experience at each level for ease of coding the level-up
+ routines.
+
+-When the game calls the battle function with a group and a level (from which a random level close
+ to the one specified is applied as the base level of the group as a whole ONLY IF THE LEVEL PASSED IS NEGATIVE!!!), the offsets are applied to the levels.
+
+-For the items, if the time is 0 seconds, the affect is applied and not reversed. If the time is negative, then
+ it gives its effect to the character holding it.
+
+-It should be noted that if If implement saving of item effects, then saving the game before
+ 03:14:07 A.M. on January 19, 2038 and continuing after that date and time will allow players another
+ hundred and thirty some years of the item's effect...

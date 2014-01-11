@@ -1,0 +1,6 @@
+4869 Somegame/Somegame.igi
+Banner: Somegame/banner.ban
+Parable: Somegame/parable.par
+Gamename: Somegame
+Description: Set in a dark time, one hero and his group of friends can save the world from chaos and free a people from opression.
+Rating: NR

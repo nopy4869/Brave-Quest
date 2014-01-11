@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICEngine", "ICEngine\ICEngine.vcproj", "{537077CC-9DE3-4B55-A81F-5D7DEF4884E9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brave Quest map editor1.0", "Brave Quest map editor\Brave Quest map editor.vcproj", "{638E294F-43BB-47A2-98D5-BFA22CE50D56}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brave Quest Map parser1.0", "map parser\map parser.vcproj", "{6E1AB3CF-76F7-4177-A286-ADC12EC2E279}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brave Quest map editor v.2.0", "Brave Quest map editor v.2.0\Brave Quest map editor v.2.0.vcproj", "{E8800DEC-E216-4D37-A81A-FE7F7427E48B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scan code finder", "scan code finder\scan code finder.vcproj", "{B649A259-A32C-45C5-9B9B-29E20D238AD5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Printcharset", "Printcharset\Printcharset.vcproj", "{9FAC44CD-E0F0-47F2-9DAA-D9F5B4E08E3C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Parable adder", "Parable adder\Parable adder.vcproj", "{FEDE9AFA-7C35-4601-8D47-CD359253144A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scripted", "Scripted\Scripted.vcproj", "{5E1595B4-05ED-44B0-B36D-13CAE81DAB7B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{537077CC-9DE3-4B55-A81F-5D7DEF4884E9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{537077CC-9DE3-4B55-A81F-5D7DEF4884E9}.Debug|Win32.Build.0 = Debug|Win32
+		{537077CC-9DE3-4B55-A81F-5D7DEF4884E9}.Release|Win32.ActiveCfg = Release|Win32
+		{537077CC-9DE3-4B55-A81F-5D7DEF4884E9}.Release|Win32.Build.0 = Release|Win32
+		{638E294F-43BB-47A2-98D5-BFA22CE50D56}.Debug|Win32.ActiveCfg = Debug|Win32
+		{638E294F-43BB-47A2-98D5-BFA22CE50D56}.Debug|Win32.Build.0 = Debug|Win32
+		{638E294F-43BB-47A2-98D5-BFA22CE50D56}.Release|Win32.ActiveCfg = Release|Win32
+		{638E294F-43BB-47A2-98D5-BFA22CE50D56}.Release|Win32.Build.0 = Release|Win32
+		{6E1AB3CF-76F7-4177-A286-ADC12EC2E279}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6E1AB3CF-76F7-4177-A286-ADC12EC2E279}.Debug|Win32.Build.0 = Debug|Win32
+		{6E1AB3CF-76F7-4177-A286-ADC12EC2E279}.Release|Win32.ActiveCfg = Release|Win32
+		{6E1AB3CF-76F7-4177-A286-ADC12EC2E279}.Release|Win32.Build.0 = Release|Win32
+		{E8800DEC-E216-4D37-A81A-FE7F7427E48B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8800DEC-E216-4D37-A81A-FE7F7427E48B}.Debug|Win32.Build.0 = Debug|Win32
+		{E8800DEC-E216-4D37-A81A-FE7F7427E48B}.Release|Win32.ActiveCfg = Release|Win32
+		{E8800DEC-E216-4D37-A81A-FE7F7427E48B}.Release|Win32.Build.0 = Release|Win32
+		{B649A259-A32C-45C5-9B9B-29E20D238AD5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B649A259-A32C-45C5-9B9B-29E20D238AD5}.Debug|Win32.Build.0 = Debug|Win32
+		{B649A259-A32C-45C5-9B9B-29E20D238AD5}.Release|Win32.ActiveCfg = Release|Win32
+		{B649A259-A32C-45C5-9B9B-29E20D238AD5}.Release|Win32.Build.0 = Release|Win32
+		{9FAC44CD-E0F0-47F2-9DAA-D9F5B4E08E3C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9FAC44CD-E0F0-47F2-9DAA-D9F5B4E08E3C}.Debug|Win32.Build.0 = Debug|Win32
+		{9FAC44CD-E0F0-47F2-9DAA-D9F5B4E08E3C}.Release|Win32.ActiveCfg = Release|Win32
+		{9FAC44CD-E0F0-47F2-9DAA-D9F5B4E08E3C}.Release|Win32.Build.0 = Release|Win32
+		{FEDE9AFA-7C35-4601-8D47-CD359253144A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FEDE9AFA-7C35-4601-8D47-CD359253144A}.Debug|Win32.Build.0 = Debug|Win32
+		{FEDE9AFA-7C35-4601-8D47-CD359253144A}.Release|Win32.ActiveCfg = Release|Win32
+		{FEDE9AFA-7C35-4601-8D47-CD359253144A}.Release|Win32.Build.0 = Release|Win32
+		{5E1595B4-05ED-44B0-B36D-13CAE81DAB7B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5E1595B4-05ED-44B0-B36D-13CAE81DAB7B}.Debug|Win32.Build.0 = Debug|Win32
+		{5E1595B4-05ED-44B0-B36D-13CAE81DAB7B}.Release|Win32.ActiveCfg = Release|Win32
+		{5E1595B4-05ED-44B0-B36D-13CAE81DAB7B}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

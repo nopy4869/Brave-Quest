@@ -1,0 +1,4 @@
+character
+Player
+npc
+mapdata(filename, people, mapermol)

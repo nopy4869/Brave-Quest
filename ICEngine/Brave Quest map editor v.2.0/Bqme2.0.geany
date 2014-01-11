@@ -1,0 +1,37 @@
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=Bqme2.0
+base_path=/media/Development/Brave-Quest-master/ICEngine/Brave Quest map editor v.2.0/
+description=
+file_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.h;*.H;
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=72
+
+[files]
+current_page=1
+FILE_NAME_0=0;C;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FBrave%20Quest%20map%20editor%20v.2.0%2FBqmc.c;0;4
+FILE_NAME_1=0;C;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FBrave%20Quest%20map%20editor%20v.2.0%2FBrave%20Quest%20map%20editor%20v.2.0.cpp;0;4
+
+[VTE]
+last_dir=/media/Development/Brave-Quest-master/ICEngine/ICEngine
+
+[gproject]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;*.m;
+ignored_dirs_patterns=.*;CVS;
+generate_tags=false

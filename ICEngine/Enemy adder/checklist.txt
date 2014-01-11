@@ -1,0 +1,55 @@
+int loaden (char openfile [13]);
+int saveen (char openfile [13]);
+int impen();
+int dumpen();
+
+int addchart();					+
+int addeq();					+
+int adden();					+
+int addcha();					+
+int addgr();					+
+int addit();					+
+
+int charted();					+
+int ened();						+
+int eqed();						+
+int chared();					+
+int gred();						+
+int ited();						+
+
+int clearchart();				+
+int cleareq();					+
+int clearen();					+
+int clearch();					+
+int cleargr();					+
+int clearit();					+
+
+int viewchart();				+
+int vieweq();					+
+int viewen();					+
+int viewch();					+
+int viewgr();					+
+int viewit();					+
+
+void plusone (char eqench);		+
+void minusone (char eqench);	+
+void checkone (char eqench);	+
+
+
+int chartypenum;
+int eqnum;
+int enemynum;
+int characternum;
+int groupnum;
+
+int workingctnum;
+int workingeqnum;
+int workingennum;
+int workingchnum;
+int workinggrnum;
+
+unsigned char chartype [272] [16];
+char equatable [40] [8];
+unsigned char enemytable [256] [16];
+unsigned char charactable [16] [16];
+unsigned char grouptable [256] [16];
