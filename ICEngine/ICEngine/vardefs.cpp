@@ -19,7 +19,7 @@ int stuffdone;
 char justwarped;
 
 struct player self;
-struct character battleen [8];
+struct baten battleen [8];
 
 WINDOW *special[5];
 WINDOW *bannerwin;

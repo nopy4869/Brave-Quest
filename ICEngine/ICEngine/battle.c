@@ -9,11 +9,12 @@ int itemnum;
 
 int en[8];
 char charactable [16][16];
-extern struct character battleen[8];
 extern struct gameinfo currgame;
+extern struct baten battleen [8];
 
 int oldlines, oldcols;
 
+statis parseeq(int equation_number, int level);
 int detenstats(int group_number, int base_level);
 int readen (char openfile [13]);
 
@@ -162,20 +163,20 @@ int dobattle(int group_number, int base_level)
 
 int detenstats(int group_number, int base_level)
 {
- //------------------------------------------------------------------//
- //  ORDER OF OPERATIONS!!                                           //
- //                                                                  //
- //  step 1: take first enemy number out of list with offset number  //
- //  step 2: apply offset to base level                              //
- //  step 3: obtain class information for first enemy                //
- //  step 4: Define enemy stats                                      //
- //           a: Determine equations                                 //
- //           b: use equations to determine each stat                //
- //  step 5: store final enemy data in struct character battleen     //
- //  step 6: repeat for next enemy                                   //
- //                                                                  //
- //  USE AT YOUR OWN RISK!!!!! ;)                  NOT DONE          //
- //------------------------------------------------------------------//
+//----------------------------------------------------------------------//
+// ORDER OF OPERATIONS!!                                                //
+//                                                                      //
+// step 1: take first enemy number out of list with level offset number //
+// step 2: apply offset to base level                                   //
+// step 3: obtain class information for first enemy                     //
+// step 4: Define enemy stats                                           //
+//          a: Determine equations                                      //
+//          b: use equations to determine each stat                     //
+// step 5: store final enemy data in struct character battleen          //
+// step 6: repeat for next enemy                                        //
+//                                                                      //
+// USE AT YOUR OWN RISK!!!!! ;)                  NOT DONE               //
+//----------------------------------------------------------------------//
 	int x;
 	int y;
 	int rlev = 0;
@@ -204,10 +205,42 @@ int detenstats(int group_number, int base_level)
 				srand (time(&temploctim));
 			#endif
 		}
-		battleen.level = base_level + currgame.grouptable[group_number][2x+1];
+		battleen[x].level = base_level + currgame.grouptable[group_number][(2*x)+1];
+		if(rlev)
+			battleen[x].level += tempint;
+		for(y=0;y<13;y++)
+		{
+			battleen[x].name[y] = currgame.enemytable [currgame.grouptable[group_number][(2*x)]][y];
+		}
+		battleen[x].symbol = currgame.enemytable [currgame.grouptable[group_number][(2*x)]][13];
+		battleen[x].type = currgame.enemytable [currgame.grouptable[group_number][(2*x)]][14];
+		battleen[x].ai = currgame.enemytable [currgame.grouptable[group_number][(2*x)]][15];
+		for(y=0;y<9;y++)
+		{
+			battleen[x].classname[y] = currgame.chartype [battleen[x].type][y];
+		}
+		battleen[x].health = parseeq(currgame.chartype [battleen[x].type][9],battleen[x].level);
+		battleen[x].attack = parseeq(currgame.chartype [battleen[x].type][10],battleen[x].level);
+		battleen[x].defence = parseeq(currgame.chartype [battleen[x].type][11],battleen[x].level);
+		battleen[x].wisdom = parseeq(currgame.chartype [battleen[x].type][12],battleen[x].level);
+		battleen[x].resistance = parseeq(currgame.chartype [battleen[x].type][13],battleen[x].level);
+		battleen[x].speed = parseeq(currgame.chartype [battleen[x].type][14],battleen[x].level);
+		battleen[x].luck = parseeq(currgame.chartype [battleen[x].type][15],battleen[x].level);
 	}
 	return 3;
 };
+
+statis parseeq(char equation_number, int level)
+{
+	int x;
+	statis temps, temps2;
+	for(x=7,x=<0,x--)
+	{
+		temps = pow(level,x) * currgame.equatable[equation_number];
+		temps2 += temps;
+	}
+	return temps2;
+}
 
 int loadenemies(char mqp [])
 {

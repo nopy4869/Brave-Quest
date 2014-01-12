@@ -29,9 +29,10 @@
 	struct character
 	{
 		char name [13];
+		char classname [9];
 		char symbol;
-		char type;
-		char leveq;
+		int type;
+		int leveq;
 		char status[4];
 		statis level;
 		statis exp;
@@ -45,6 +46,26 @@
 		statis luck;
 		char item [4];
 		int spells [32];
+	};
+	struct baten
+	{
+		char name [13];
+		char classname [9];
+		char symbol;
+		int type;
+		char status[4];
+		statis level;
+		statis health;
+		statis currhealth;
+		statis attack;
+		statis defence;
+		statis wisdom;
+		statis resistance;
+		statis speed;
+		statis luck;
+		char item [4];
+		int spells [32];
+		char ai;
 	};
 	struct gameinfo
 	{
