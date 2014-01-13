@@ -14,7 +14,7 @@ indent_mode=2
 
 [project]
 name=ICEngine
-base_path=/media/Development/Brave-Quest-master/ICEngine/ICEngine/
+base_path=/home/nopy/code/Brave-Quest/Brave-Quest/ICEngine/ICEngine
 description=The InternalCombustionEngine for BRAVE QUEST!!!
 file_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.h;*.H;
 
@@ -23,25 +23,11 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=13
-FILE_NAME_0=364;C;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fbattle.c;0;4
-FILE_NAME_1=3065;None;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FEnemy%20adder%2FEnemy%20file%20documentation.txt;0;4
-FILE_NAME_2=0;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2FDisplay.cpp;0;4
-FILE_NAME_3=7714;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fgamelogic.cpp;0;4
-FILE_NAME_4=147;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fgamelogictypedefs.cpp;0;4
-FILE_NAME_5=9596;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2FICEngine.cpp;0;4
-FILE_NAME_6=258;C;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Flinux.c;0;4
-FILE_NAME_7=5348;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fmap.cpp;0;4
-FILE_NAME_8=0;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fmathstuf.cpp;0;4
-FILE_NAME_9=0;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fmove.cpp;0;4
-FILE_NAME_10=4568;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fsave.cpp;0;4
-FILE_NAME_11=70;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fscripts.cpp;0;4
-FILE_NAME_12=0;C;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Ftables.c;0;4
-FILE_NAME_13=478;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Funidefs.cpp;0;4
-FILE_NAME_14=225;C++;0;EUTF-8;1;1;0;%2Fmedia%2FDevelopment%2FBrave-Quest-master%2FICEngine%2FICEngine%2Fvardefs.cpp;0;4
+current_page=0
+FILE_NAME_0=2340;C;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fbattle.c;0;4
 
 [VTE]
-last_dir=/media/Development/Brave-Quest-master/ICEngine/ICEngine
+last_dir=/home/nopy
 
 [gproject]
 source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;

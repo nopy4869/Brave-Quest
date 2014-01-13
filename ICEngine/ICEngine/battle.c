@@ -93,7 +93,7 @@ int batdisp()
 	return 0;
 };
 
-/*int batinitscr()
+int batinitscr()
 {
 	delwin(special[0]);
 	delwin(special[1]);
@@ -121,7 +121,7 @@ int batdisp()
 	clear();
 	refresh();
 	return 0;
-}*/
+}
 
 
 int dispinitscr()
@@ -156,7 +156,7 @@ int aibattle()
 int dobattle(int group_number, int base_level)
 {	
     detenstats(group_number, base_level);
-    //batdisp();
+    batinitscr();
     //not done
     return 0;
 };
@@ -175,7 +175,7 @@ int detenstats(int group_number, int base_level)
 // step 5: store final enemy data in struct character battleen          //
 // step 6: repeat for next enemy                                        //
 //                                                                      //
-// USE AT YOUR OWN RISK!!!!! ;)                  NOT DONE               //
+// USE AT YOUR OWN RISK!!!!! ;)                      DONE               //
 //----------------------------------------------------------------------//
 	int x;
 	int y;
@@ -227,7 +227,7 @@ int detenstats(int group_number, int base_level)
 		battleen[x].speed = parseeq(currgame.chartype [battleen[x].type][14],battleen[x].level);
 		battleen[x].luck = parseeq(currgame.chartype [battleen[x].type][15],battleen[x].level);
 	}
-	return 3;
+	return 0;
 };
 
 statis parseeq(char equation_number, int level)
