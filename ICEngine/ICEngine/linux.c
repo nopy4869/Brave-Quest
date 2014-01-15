@@ -12,6 +12,7 @@
 #include <curses.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include "unidefs.cpp"
 #include "vardefs.cpp"
 

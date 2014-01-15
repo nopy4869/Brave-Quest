@@ -1,4 +1,4 @@
-WINDOW *battlewin[5];
+WINDOW *battlewin[7];
 
 int chartypenum;
 int eqnum;
@@ -6,6 +6,7 @@ int enemynum;
 int characternum;
 int groupnum;
 int itemnum;
+char batdone;
 
 int en[8];
 char charactable [16][16];
@@ -14,7 +15,7 @@ extern struct baten battleen [8];
 
 int oldlines, oldcols;
 
-statis parseeq(int equation_number, int level);
+statis parseeq(char equation_number, int level);
 int detenstats(int group_number, int base_level);
 int readen (char openfile [13]);
 
@@ -234,9 +235,10 @@ statis parseeq(char equation_number, int level)
 {
 	int x;
 	statis temps, temps2;
-	for(x=7,x=<0,x--)
+	for(x=7;x<=0;x--)
 	{
-		temps = pow(level,x) * currgame.equatable[equation_number];
+		temps = pow(level,x);
+		temps *= (statis)currgame.equatable[(int)equation_number];
 		temps2 += temps;
 	}
 	return temps2;
