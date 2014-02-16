@@ -23,14 +23,54 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=2340;C;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fbattle.c;0;4
+current_page=1
+FILE_NAME_0=8683;C;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fbattle.c;0;4
+FILE_NAME_1=11979;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2FICEngine.cpp;0;4
+FILE_NAME_2=488;C;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Flinux.c;0;4
+FILE_NAME_3=1004;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fgamelogic.cpp;0;4
+FILE_NAME_4=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fgamelogictypedefs.cpp;0;4
+FILE_NAME_5=7603;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fmove.cpp;0;4
+FILE_NAME_6=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fvardefs.cpp;0;4
+FILE_NAME_7=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Funidefs.cpp;0;4
 
 [VTE]
-last_dir=/home/nopy
+last_dir=/home/nopy/code/ICEngine
 
 [gproject]
 source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;
 header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;*.m;
 ignored_dirs_patterns=.*;CVS;ICEngine;Daily;Somegame;originalgameinfotxts;2013-04-05;
 generate_tags=false
+
+[build-menu]
+NF_03_LB=Build the ICEngine
+NF_03_CM=\sgcc -Wall -o "/home/nopy/code/ICEngine/linux" "/home/nopy/code/Brave-Quest/Brave-Quest/ICEngine/ICEngine/linux.c" -lncurses -lm
+NF_03_WD=
+CFT_02_LB=Build with ncurses
+CFT_02_CM=\sgcc -Wall -o "/home/nopy/code/ICEngine/%e" "%f" -lncurses -lm
+CFT_02_WD=
+filetypes=C;C++;
+EX_00_LB=Debug
+EX_00_CM=lxterminal --command="gdb /home/nopy/code/ICEngine/%e" --working-directory="/home/nopy/code/ICEngine/"
+EX_00_WD=
+EX_01_LB=Run ICE
+EX_01_CM=lxterminal --command="/home/nopy/code/ICEngine/linux gac" --working-directory="/home/nopy/code/ICEngine/"
+EX_01_WD=
+NF_00_LB=Make
+NF_00_CM=make
+NF_00_WD=
+NF_01_LB=Debug
+NF_01_CM=gcc -Wall -g -o "/home/nopy/code/ICEngine/%e" "%f"
+NF_01_WD=
+NF_02_LB=Debug build with ncurses
+NF_02_CM=gcc -Wall -g -o "/home/nopy/code/ICEngine/%e" "%f" -lncurses -lm
+NF_02_WD=
+CFT_00_LB=_Compile
+CFT_00_CM=gcc -Wall -c "%f"
+CFT_00_WD=
+CFT_01_LB=_Build
+CFT_01_CM=gcc -Wall -o "%e" "%f"
+CFT_01_WD=
+C++FT_01_LB=_Build
+C++FT_01_CM=g++ -Wall -o "%e" "%f"
+C++FT_01_WD=

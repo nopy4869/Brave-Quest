@@ -248,7 +248,7 @@ int loadenemies(char mqp [])
 {
 	FILE *loadench;
 	loadench =fopen(mqp, "r");
-	char check = 100;
+//	char check = 100;
 	if (loadench == 0)
 	{
 		wprintw(stdscr, "Enemies file not found.\n");
@@ -272,38 +272,34 @@ int loadenemies(char mqp [])
 		if(qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiop != 0)
 		{
 			wprintw(stdscr, "Some kind of error occured.\n");
+			nbi();
 			hang(3);
-			wprintw(stdscr, "Press any key to continue.\n");
-			while(check != ERR)
-			{
-				check = nbi();
-			}
-			bi();
-			return 3;
+			endwin();
+			exit(1);
+			return 1;
 		}
 	}
-	return 1;			//not done yet!
+	parsecharactable();	//Character table is built BEFORE the save files are loaded!!!!!
+	return 0;
 };
 
 int readen (char openfile [13])
 {
-	wprintw(stdscr, "Loading ");
 	loadfile = fopen(openfile,"r");
 	if(loadfile == FALSE)
 	{
-		wprintw(stdscr, "failed.\n");
 		return 1;
 	}
 	else
 	{
-		fread(&trash,1,1,savefile);
-		fread(&trash,1,1,savefile);
+		fread(&trash,1,1,loadfile);
+		fread(&trash,1,1,loadfile);
 		fread(&characternum,4,1,loadfile);
 		fread(&eqnum,4,1,loadfile);
-		fread(&enemynum,4,1,savefile);
+		fread(&enemynum,4,1,loadfile);
 		fread(&characternum,4,1,loadfile);
-		fread(&groupnum,4,1,savefile);
-		fread(&itemnum,4,1,savefile);
+		fread(&groupnum,4,1,loadfile);
+		fread(&itemnum,4,1,loadfile);
 		for(frunx = 0; frunx < chartypenum ; frunx++)
 		{
 			for(fruny = 0; fruny < 16; fruny++)
@@ -322,7 +318,7 @@ int readen (char openfile [13])
 		{
 			for(fruny = 0; fruny < 16; fruny++)
 			{
-				fread(&currgame.enemytable[frunx][fruny],1,1,savefile);
+				fread(&currgame.enemytable[frunx][fruny],1,1,loadfile);
 			};
 		};
 		for(frunx = 0; frunx < characternum; frunx++)
@@ -346,9 +342,8 @@ int readen (char openfile [13])
 				fread(&currgame.itemtable[frunx][fruny],1,1,loadfile);
 			};
 		};
-		fclose(savefile);
+		fclose(loadfile);
 	}
-	wprintw(stdscr, "sucessful.\n");
 	return 0;
 };
 

@@ -250,27 +250,10 @@ int loadgamedata()
 		exit(1);
 	}
 	fread(&trash,1,1,gameinfotxt);
-	if(trash == '4')
-	{
-		dauthnum [0] = '4';
-	}
 	fread(&trash,1,1,gameinfotxt);
-	if(trash == '8')
-	{
-		dauthnum [1] = '8';
-	}
 	fread(&trash,1,1,gameinfotxt);
-	if(trash == '6')
-	{
-		dauthnum [2] = '6';
-	}
 	fread(&trash,1,1,gameinfotxt);
-	if(trash == '9')
-	{
-		dauthnum [3] = '9';
-	}
 	fread(&trash,1,1,gameinfotxt);
-	dauthnum [4] = '\0';
 	fread(&igipath,21,1,gameinfotxt);
 	igipath [21] = '\0';
 	fread(&trash,1,1,gameinfotxt);
@@ -491,6 +474,7 @@ int main(int argc, char *argv[])
 	loadgamedata();
 	loadenemies(currgame.enemyfile);
 	configuration();
+	refresh();
 	hang(3);
 	char check = 0;
 	while(check != ERR)
@@ -502,10 +486,9 @@ int main(int argc, char *argv[])
 	{
 		justwarped = 0;
 		lastframetime = 0;
-//		if(strcmp(dauthnum, "4869") == 0)
-//			debug();
+		if(dbug)
+			debug();
 		begmen();
-//		newgamemenu();
 		gameloop();
 	}
 	return 0;
