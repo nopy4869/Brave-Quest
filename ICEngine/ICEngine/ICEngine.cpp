@@ -35,7 +35,7 @@ char mname [13];
 char scoord;
 int maprunx;
 extern char showmenu;
-extern char loadgamemenu;
+extern char gamestate;
 extern WINDOW *special[5];
 char trash;
 char igipath [22];
@@ -244,8 +244,7 @@ int loadgamedata()
 	if (gameinfotxt == FALSE)
 	{
 		wprintw(stdscr, "Failed.\n\"gameinfo.txt\" not found.\n");
-		nbi();
-		hang(3);
+		bie();
 		endwin();
 		exit(1);
 	}
@@ -278,17 +277,40 @@ int loadgamedata()
 	fread(&trash,1,1,gameinfotxt);
 	fread(&trash,1,1,gameinfotxt);
 	fread(&parablepath,20,1,gameinfotxt);
-	parablepath [20] = '\0';
-//	wprintw(stdscr, "   %s\n",bannerpath);
-//	wprintw(stdscr, "   %s\n",igipath);
-//	wprintw(stdscr, "   %s\n",parablepath);
-//	nbi();
-//	hang(5);
+	if(dbug)
+	{
+		parablepath [20] = '\0';
+		wprintw(stdscr, "   %s\n",bannerpath);
+		wprintw(stdscr, "   %s\n",igipath);
+		wprintw(stdscr, "   %s\n",parablepath);
+		bie();
+	}
 	loadbanner(bannerpath);
+	if(dbug)
+	{
+		mvwprintw(stdscr,0,0, "\n\n\n");
+		mvwprintw(stdscr,0,0, "");
+		wprintw(stdscr, "   Banner printed\n");
+		bie();
+	}
 	loadigi(igipath);
+	if(dbug)
+	{
+		wprintw(stdscr, "   igi loaded\n");
+		bie();
+	}
 	loadpar(parablepath);
+	if(dbug)
+	{
+		wprintw(stdscr, "   Parable file loaded\n");
+		bie();
+	}
 	fclose(gameinfotxt);
-//	wprintw(stdscr, "Complete\n");
+	if(dbug)
+	{
+		wprintw(stdscr, "Complete\n");
+		bie();
+	}
 	refresh();
 	return 0;
 }
@@ -302,7 +324,7 @@ int loadpar (char openfile [])
 	if(loadfile == FALSE)
 	{
 		wprintw(stdscr, "   Loading parable file failed.\n");
-		nbi();
+		bie();
 		hang(3);
 		endwin();
 		exit(1);
@@ -312,7 +334,15 @@ int loadpar (char openfile [])
 	{
 		fread(&trash,1,1,loadfile);
 		fread(&trash,1,1,loadfile);
-		fread(&currgame.parablenum,4,1,loadfile);
+		if(trash == 0)
+			fread(&currgame.parablenum,1,1,loadfile);
+		if(trash != 0)
+			fread(&currgame.parablenum,4,1,loadfile);
+		if(dbug)
+		{
+			wprintw(stdscr, "Test123.\n");
+			bie();
+		}
 		for(frunx = 0; frunx < currgame.parablenum; frunx++)
 		{
 			for(fruny = 0; fruny < 1024; fruny++)
@@ -333,30 +363,38 @@ int loadbanner (char openfile [])
 	loadfile = fopen(openfile,"r");
 	if(loadfile == FALSE)
 	{
-		wprintw(stdscr, "   Loading banner file failed.\n");
-		nbi();
-		hang(3);
+		mvwprintw(stdscr,0,0, "\n");
+		mvwprintw(stdscr,0,0, "   Loading banner file failed.\n");
+		bie();
 		endwin();
 		exit(1);
 		return 1;
 	}
 	else
 	{
-		bannerwin = derwin(stdscr, 5, 36, self.config.halfscreenheight - 4, self.config.halfscreenwidth - 18);
-		botlin = derwin(stdscr, 1, 0, self.config.halfscreenheight, 0);
+		bannerwin = derwin(stdscr, 5, 36, self.config.halfscreenheight - 2, self.config.halfscreenwidth - 18);
+		scrollok(bannerwin, FALSE);
+//		botlin = derwin(stdscr, 1, 0, self.config.screenheight - 1, 0);
 		if(bannerwin == 0)
-			wprintw(stdscr, "\n\nBanner Window unable to be created.");
-		for(frunx = 0; frunx < 5; frunx++)
 		{
-			for(fruny = 0; fruny < 36; fruny++)
+			mvwprintw(stdscr,0,0, "\n\nBanner Window unable to be created.");
+			bie();
+			exit(1);
+		}
+		else
+		{
+			for(frunx = 0; frunx < 5; frunx++)
 			{
-				fread(&currgame.banner [frunx][fruny],1,1,loadfile);
-				mvwprintw(bannerwin, frunx, fruny, "%c", currgame.banner[frunx][fruny]);
+				for(fruny = 0; fruny < 36; fruny++)
+				{
+					fread(&currgame.banner [frunx][fruny],1,1,loadfile);
+					mvwprintw(bannerwin, frunx, fruny, "%c", currgame.banner[frunx][fruny]);
+					wrefresh(bannerwin);
+				};
 			};
-		};
+		}
 	}
 	fclose(loadfile);
-	refresh();
 	return 0;
 }
 
@@ -369,7 +407,7 @@ int loadigi (char openfile [])
 	if(loadfile == FALSE)
 	{
 		wprintw(stdscr, "   Loading igi file failed.\n");
-		nbi();
+		bie();
 		hang(3);
 		endwin();
 		exit(1);
@@ -451,7 +489,7 @@ int viewbanner()
 int main(int argc, char *argv[])
 {
 	if(argc > 1)
-		if(strcmp(argv[1], "gac") == 0)
+		if(strcmp(argv[1], "gac") >= 0)
 			dbug = 1;
 	initscr();
 	cbreak();

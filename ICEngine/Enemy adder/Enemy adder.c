@@ -1,14 +1,15 @@
 // Enemy adder.cpp : Defines the entry point for the console application.
 //
 
+#define TRUE 1
+#define FALSE 0
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
 
-#define TRUE 1
-#define FALSE 0
 #define VERSION '\x01'
-#define VERSION2 '\x01'
+#define VERSION2 '\x02'
 
 char enemytablevernum = VERSION;
 char enemytablevernum2 = VERSION2;
@@ -20,6 +21,7 @@ int eqnum;
 int enemynum;
 int characternum;
 int groupnum;
+int itgroupnum;
 int itemnum;
 
 int workingctnum;
@@ -27,20 +29,23 @@ int workingeqnum;
 int workingennum;
 int workingchnum;
 int workinggrnum;
+int workingitgrnum;
 int workingitnum;
 
 unsigned char workingct [16];
-char workingeq [8];
+double workingeq [8];
 unsigned char workingen [16];
 unsigned char workingch [16];
 unsigned char workinggr [16];
+unsigned char workingitgr [16];
 unsigned char workingit [16];
 
 unsigned char chartype [272] [16];
-char equatable [40] [8];
+double equatable [40] [8];
 unsigned char enemytable [256] [16];
 unsigned char charactable [16] [16];
 unsigned char grouptable [256] [16];
+unsigned char itemgrouptable [256] [16];
 unsigned char itemtable [256] [16];
 
 extern char filename [13];
@@ -60,6 +65,7 @@ int addeq();
 int adden();
 int addcha();
 int addgr();
+int additgr();
 int addit();
 
 int charted();
@@ -67,6 +73,7 @@ int ened();
 int eqed();
 int chared();
 int gred();
+int itgred();
 int ited();
 
 int clearchart();
@@ -74,13 +81,15 @@ int cleareq();
 int clearen();
 int clearch();
 int cleargr();
+int clearitgr();
 int clearit();
 
 int viewchart();
-int vieweq();
+int vieweq(int nest);
 int viewen();
 int viewch();
 int viewgr();
+int viewitgr();
 int viewit();
 
 void plusone (char eqench);
@@ -254,7 +263,7 @@ int eqed ()
 		if(input[0] == '1')
 			addeq();
 		if(input[0] == '4')
-			vieweq();
+			vieweq(0);
 		if(input[0] == '7')
 			saveen(filename);
 		if(input[0] == '8')
@@ -286,7 +295,7 @@ int gred()
 	{
 		clear();
 		refresh();
-		wprintw(stdscr, "To add an enemy press 1.\nTo view an enemy press 4.\nTo save the enemy file press 7.\nTo save the enemy file under a different name press 8.\nTo edit items press 9\nTo delete an enemy press 0.\n");
+		wprintw(stdscr, "To add a group press 1.\nTo view a group press 4.\nTo save the enemy file press 7.\nTo save the enemy file under a different name press 8.\nTo edit item groups press 9\nTo delete a group press 0.\n");
 		input [0] = bie();
 		if(input[0] == '1')
 			addgr();
@@ -313,6 +322,43 @@ int gred()
 		bie();
 	}
 	if(input[0] == '9')
+		itgred();
+	return 0;
+}
+
+int itgred()
+{
+	for(;;)
+	{
+		clear();
+		refresh();
+		wprintw(stdscr, "To add an item group press 1.\nTo view an item group press 4.\nTo save the enemy file press 7.\nTo save the enemy file under a different name press 8.\nTo edit items press 9\nTo delete an item group press 0.\n");
+		input [0] = bie();
+		if(input[0] == '1')
+			additgr();
+		if(input[0] == '4')
+			viewitgr();
+		if(input[0] == '7')
+			saveen(filename);
+		if(input[0] == '8')
+		{
+			stufffilename();
+			saveen(filename);
+		}
+		if(input[0] == '9')
+			break;
+		if(input[0] == '.')
+			plusone(6);
+		if(input[0] == ',')
+			minusone(6);
+		if(input[0] == '/')
+			checkone(6);
+		if(input[0] == '0')
+			clearitgr();
+		wprintw(stdscr, "Press any key to continue.\n");
+		bie();
+	}
+	if(input[0] == '9')
 		ited();
 	return 0;
 }
@@ -323,7 +369,7 @@ int ited()
 	{
 		clear();
 		refresh();
-		wprintw(stdscr, "To add an enemy press 1.\nTo view an enemy press 4.\nTo save the enemy file press 7.\nTo save the enemy file under a different name press 8.\nTo edit classes press 9\nTo delete an enemy press 0.\n");
+		wprintw(stdscr, "To add an item press 1.\nTo view an item press 4.\nTo save the enemy file press 7.\nTo save the enemy file under a different name press 8.\nTo edit classes press 9\nTo delete an item press 0.\n");
 		input [0] = bie();
 		if(input[0] == '1')
 			addit();
@@ -373,12 +419,12 @@ int loaden (char openfile [13])
 		fread(&trash,1,1,loadfile);
 		if(trash == 0)
 		{
-			fread(&characternum,4,1,loadfile);
-			fread(&eqnum,4,1,loadfile);
-			fread(&enemynum,4,1,loadfile);
-			fread(&characternum,4,1,loadfile);
-			fread(&groupnum,4,1,loadfile);
-			fread(&itemnum,4,1,loadfile);
+			fread(&characternum,1,1,loadfile);
+			fread(&eqnum,1,1,loadfile);
+			fread(&enemynum,1,1,loadfile);
+			fread(&characternum,1,1,loadfile);
+			fread(&groupnum,1,1,loadfile);
+			fread(&itemnum,1,1,loadfile);
 		}
 		if(trash != 0)
 		{
@@ -387,6 +433,10 @@ int loaden (char openfile [13])
 			fread(&enemynum,4,1,loadfile);
 			fread(&characternum,4,1,loadfile);
 			fread(&groupnum,4,1,loadfile);
+			if(trash >= 2)
+			{
+				fread(&itgroupnum,4,1,loadfile);
+			}
 			fread(&itemnum,4,1,loadfile);
 		}
 		for(frunx = 0; frunx < chartypenum ; frunx++)
@@ -400,7 +450,7 @@ int loaden (char openfile [13])
 		{
 			for(fruny = 0; fruny < 8; fruny++)
 			{
-				fread(&equatable[frunx][fruny],1,1,loadfile);
+				fread(&equatable[frunx][fruny],8,1,loadfile);
 			};
 		};
 		for(frunx = 0; frunx < enemynum; frunx++)
@@ -424,6 +474,16 @@ int loaden (char openfile [13])
 				fread(&grouptable[frunx][fruny],1,1,loadfile);
 			};
 		};
+		if(trash >= 2)
+		{
+			for(frunx = 0; frunx < itgroupnum ; frunx++)
+			{
+				for(fruny = 0; fruny < 16; fruny++)
+				{
+					fread(&itemgrouptable[frunx][fruny],1,1,loadfile);
+				};
+			};
+		}
 		for(frunx = 0; frunx < itemnum ; frunx++)
 		{
 			for(fruny = 0; fruny < 16; fruny++)
@@ -459,6 +519,7 @@ int saveen (char openfile [13])
 		fwrite(&enemynum,4,1,savefile);
 		fwrite(&characternum,4,1,savefile);
 		fwrite(&groupnum,4,1,savefile);
+		fwrite(&itgroupnum,4,1,savefile);
 		fwrite(&itemnum,4,1,savefile);
 		for(frunx = 0; frunx < chartypenum ; frunx++)
 		{
@@ -471,7 +532,7 @@ int saveen (char openfile [13])
 		{
 			for(fruny = 0; fruny < 8; fruny++)
 			{
-				fwrite(&equatable[frunx][fruny],1,1,savefile);
+				fwrite(&equatable[frunx][fruny],8,1,savefile);
 			};
 		};
 		for(frunx = 0; frunx < enemynum; frunx++)
@@ -493,6 +554,13 @@ int saveen (char openfile [13])
 			for(fruny = 0; fruny < 16; fruny++)
 			{
 				fwrite(&grouptable[frunx][fruny],1,1,savefile);
+			};
+		};
+		for(frunx = 0; frunx < itgroupnum ; frunx++)
+		{
+			for(fruny = 0; fruny < 16; fruny++)
+			{
+				fwrite(&itemgrouptable[frunx][fruny],1,1,savefile);
 			};
 		};
 		for(frunx = 0; frunx < itemnum ; frunx++)
@@ -673,14 +741,14 @@ int addeq()
 	clear();
 	refresh();
 	wprintw(stdscr, "Type the numbers as required!\n_x^7+_x^6+_x^5+_x^4+_x^3+_x^2+_x^1+_\n");
-	workingeq[0] = sintimp();
-	workingeq[1] = sintimp();
-	workingeq[2] = sintimp();
-	workingeq[3] = sintimp();
-	workingeq[4] = sintimp();
-	workingeq[5] = sintimp();
-	workingeq[6] = sintimp();
-	workingeq[7] = sintimp();
+	workingeq[0] = sdubimp();
+	workingeq[1] = sdubimp();
+	workingeq[2] = sdubimp();
+	workingeq[3] = sdubimp();
+	workingeq[4] = sdubimp();
+	workingeq[5] = sdubimp();
+	workingeq[6] = sdubimp();
+	workingeq[7] = sdubimp();
 	wprintw(stdscr, "Comitting to equation table now.\n");
 	for(frunx = 0; frunx < 8; frunx++)
 	{
@@ -693,18 +761,19 @@ int addeq()
 		workingeq[frunx] = 0;
 	}
 	wprintw(stdscr, "Done.\n");
+	hang(2);
 	return 0;
 };
 
 int addgr()
 {
-	int qwert;
+	unsigned int qwert, tempint;
 	wprintw(stdscr, "Go back? y/n\n");
 	if (bie() == 'y')
 		return 2;
 	workinggrnum = groupnum;
 	wprintw(stdscr, "Follow the instructions to input the group's info.\nPress escape to end input.\n");
-	for (frunx = 0; frunx < 8;frunx++)
+	for (frunx = 0; frunx < 6;frunx++)
 	{
 		qwert = frunx * 2;
 		wprintw(stdscr, "Please type your enemy's number.\n");
@@ -712,6 +781,15 @@ int addgr()
 		wprintw(stdscr, "Please type the level offset.\n");
 		workinggr[qwert + 1] = intimp();
 	}
+	wprintw(stdscr, "Please type the item drop group id.\n");
+	workinggr[12] = intimp();
+	wprintw(stdscr, "Please type the experience gained from defeating this group.\nNOTE:This value is 3 bytes!!!\n");
+	qwert = intimp();
+	workinggr[15] = qwert;
+	tempint = qwert >> 8;
+	workinggr[14] = tempint;
+	tempint = tempint >> 8;
+	workinggr[13] = tempint;
 	wprintw(stdscr, "Comitting to group table now.\n");
 	for(frunx = 0; frunx < 16; frunx++)
 	{
@@ -722,6 +800,37 @@ int addgr()
 	for(frunx = 0; frunx < 16; frunx++)
 	{
 		workinggr[frunx] = 0;
+	}
+	wprintw(stdscr, "Done.\n");
+	return 0;
+};
+
+int additgr()
+{
+	int qwert;
+	wprintw(stdscr, "Go back? y/n\n");
+	if (bie() == 'y')
+		return 2;
+	workingitgrnum = itgroupnum;
+	wprintw(stdscr, "Follow the instructions to input the item group's info.\nPress escape to end input.\n");
+	for (frunx = 0; frunx < 8;frunx++)
+	{
+		qwert = frunx * 2;
+		wprintw(stdscr, "Please type your item's number.\n");
+		workingitgr[qwert] = intimp();
+		wprintw(stdscr, "Please type the drop probability.\n");
+		workingitgr[qwert + 1] = intimp();
+	}
+	wprintw(stdscr, "Comitting to item group table now.\n");
+	for(frunx = 0; frunx < 16; frunx++)
+	{
+		itemgrouptable[workingitgrnum][frunx] = workingitgr[frunx];
+	}
+	itgroupnum = workingitgrnum + 1;
+	input[1] = 0;
+	for(frunx = 0; frunx < 16; frunx++)
+	{
+		workingitgr[frunx] = 0;
 	}
 	wprintw(stdscr, "Done.\n");
 	return 0;
@@ -753,11 +862,11 @@ int addit()
 		}
 	}
 	workingit[11] = sep;
-	wprintw(stdscr, "Please type your item's Character.\n");
+	wprintw(stdscr, "Please type the your item's letter.\n");
 	workingit[12] = bie();
-	wprintw(stdscr, "Please type your item's life.\n");
+	wprintw(stdscr, "Please type your item's life (in seconds).\n");
 	workingit[13] = intimp();
-	wprintw(stdscr, "Please type your item's affected stat.\n");
+	wprintw(stdscr, "Please type the ID of your item's affected stat.\n");
 	workingit[14] = intimp();
 	wprintw(stdscr, "Please type how much your item affects its stat.\n");
 	workingit[15] = intimp();
@@ -818,10 +927,20 @@ int cleareq()
 
 int cleargr()
 {
-	wprintw(stdscr, "Please type the enemy number.\n");
+	wprintw(stdscr, "Please type the enemy group number.\n");
 	workinggrnum = intimp();
 	for(frunx = 0; frunx < 16; frunx++)
 		grouptable[workinggrnum][frunx] = 0;
+	wprintw(stdscr, "\n");
+	return 0;
+};
+
+int clearitgr()
+{
+	wprintw(stdscr, "Please type the Item group number.\n");
+	workingitgrnum = intimp();
+	for(frunx = 0; frunx < 16; frunx++)
+		grouptable[workingitgrnum][frunx] = 0;
 	wprintw(stdscr, "\n");
 	return 0;
 };
@@ -863,28 +982,69 @@ int viewch()
 	return 0;
 };
 
-int vieweq()
+int vieweq(int nest)
 {
-	wprintw(stdscr, "Please type the equation group number (0 - 4).\n");
-	input[1] = intimp();
-	input[1] = input[1] % 8;
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]][0], charactable[input[1]][1], charactable[input[1]][2], charactable[input[1]][3], charactable[input[1]][4], charactable[input[1]][5], charactable[input[1]][6], charactable[input[1]][7]);
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]+1][0], charactable[input[1]+1][1], charactable[input[1]+1][2], charactable[input[1]+1][3], charactable[input[1]+1][4], charactable[input[1]+1][5], charactable[input[1]+1][6], charactable[input[1]+1][7]);
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]+2][0], charactable[input[1]+2][1], charactable[input[1]+2][2], charactable[input[1]+2][3], charactable[input[1]+2][4], charactable[input[1]+2][5], charactable[input[1]+2][6], charactable[input[1]+2][7]);
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]+3][0], charactable[input[1]+3][1], charactable[input[1]+3][2], charactable[input[1]+3][3], charactable[input[1]+3][4], charactable[input[1]+3][5], charactable[input[1]+3][6], charactable[input[1]+3][7]);
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]+4][0], charactable[input[1]+4][1], charactable[input[1]+4][2], charactable[input[1]+4][3], charactable[input[1]+4][4], charactable[input[1]+4][5], charactable[input[1]+4][6], charactable[input[1]+4][7]);
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]+5][0], charactable[input[1]+5][1], charactable[input[1]+5][2], charactable[input[1]+5][3], charactable[input[1]+5][4], charactable[input[1]+5][5], charactable[input[1]+5][6], charactable[input[1]+5][7]);
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]+6][0], charactable[input[1]+6][1], charactable[input[1]+6][2], charactable[input[1]+6][3], charactable[input[1]+6][4], charactable[input[1]+6][5], charactable[input[1]+6][6], charactable[input[1]+6][7]);
-	wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", charactable[input[1]+7][0], charactable[input[1]+7][1], charactable[input[1]+7][2], charactable[input[1]+7][3], charactable[input[1]+7][4], charactable[input[1]+7][5], charactable[input[1]+7][6], charactable[input[1]+7][7]);
+	if(nest == 10)
+		return 2;
+	wprintw(stdscr, "View a single equation (1) or view a whole group(g)?\n");
+	input[2] = bie();
+	if (input[2] == '1')
+	{
+		wprintw(stdscr, "Please type the equation number (0 - 39).\n");
+		input[1] = intimp();
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]][0], equatable[input[1]][1], equatable[input[1]][2], equatable[input[1]][3], equatable[input[1]][4], equatable[input[1]][5], equatable[input[1]][6], equatable[input[1]][7]);
+	}
+	else if(input[2] == 'g')
+	{
+		wprintw(stdscr, "Please type the equation group number (0 - 4).\n");
+		input[1] = intimp();
+		input[1] = input[1] * 8;
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]][0], equatable[input[1]][1], equatable[input[1]][2], equatable[input[1]][3], equatable[input[1]][4], equatable[input[1]][5], equatable[input[1]][6], equatable[input[1]][7]);
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]+1][0], equatable[input[1]+1][1], equatable[input[1]+1][2], equatable[input[1]+1][3], equatable[input[1]+1][4], equatable[input[1]+1][5], equatable[input[1]+1][6], equatable[input[1]+1][7]);
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]+2][0], equatable[input[1]+2][1], equatable[input[1]+2][2], equatable[input[1]+2][3], equatable[input[1]+2][4], equatable[input[1]+2][5], equatable[input[1]+2][6], equatable[input[1]+2][7]);
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]+3][0], equatable[input[1]+3][1], equatable[input[1]+3][2], equatable[input[1]+3][3], equatable[input[1]+3][4], equatable[input[1]+3][5], equatable[input[1]+3][6], equatable[input[1]+3][7]);
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]+4][0], equatable[input[1]+4][1], equatable[input[1]+4][2], equatable[input[1]+4][3], equatable[input[1]+4][4], equatable[input[1]+4][5], equatable[input[1]+4][6], equatable[input[1]+4][7]);
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]+5][0], equatable[input[1]+5][1], equatable[input[1]+5][2], equatable[input[1]+5][3], equatable[input[1]+5][4], equatable[input[1]+5][5], equatable[input[1]+5][6], equatable[input[1]+5][7]);
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]+6][0], equatable[input[1]+6][1], equatable[input[1]+6][2], equatable[input[1]+6][3], equatable[input[1]+6][4], equatable[input[1]+6][5], equatable[input[1]+6][6], equatable[input[1]+6][7]);
+		wprintw(stdscr, "%dx^7+%dx^6+%dx^5+%dx^4+%dx^3+%dx^2+%dx+%d\n", equatable[input[1]+7][0], equatable[input[1]+7][1], equatable[input[1]+7][2], equatable[input[1]+7][3], equatable[input[1]+7][4], equatable[input[1]+7][5], equatable[input[1]+7][6], equatable[input[1]+7][7]);
+	}
+	else
+	{
+		wprintw(stdscr, "Invalid input: aborting in %d more tries.\n", (9 - nest));
+		vieweq(nest + 1);
+	}
 	refresh();
 	return 0;
 };
 
 int viewgr()
 {
+	unsigned int tempint;
 	wprintw(stdscr, "Please type the enemy group number.\n");
 	input[1] = intimp();
-	wprintw(stdscr, "Enemy #, level offset\n#0. %d, %d\n#1. %d, %d\n#2. %d, %d\n#3. %d, %d\n#4. %d, %d\n#5. %d, %d\n#6. %d, %d\n#7. %d, %d\n", grouptable[input[1]][0], grouptable[input[1]][1], grouptable[input[1]][2], grouptable[input[1]][3], grouptable[input[1]][4], grouptable[input[1]][5], grouptable[input[1]][6], grouptable[input[1]][7], grouptable[input[1]][8], grouptable[input[1]][9], grouptable[input[1]][10], grouptable[input[1]][11], grouptable[input[1]][12], grouptable[input[1]][13], grouptable[input[1]][14], grouptable[input[1]][15]);
+	tempint = grouptable[input[1]][13];
+	tempint = tempint << 8;
+	tempint += grouptable[input[1]][14];
+	tempint = tempint << 8;
+	tempint += grouptable[input[1]][15];
+	wprintw(stdscr, "Enemy #, level offset\n#0. %d, %d\n#1. %d, %d\n#2. %d, %d\n#3. %d, %d\n#4. %d, %d\n#5. %d, %d\n#Item drop number: %d\nExperience for defeating this group: %d\n", grouptable[input[1]][0], grouptable[input[1]][1], grouptable[input[1]][2], grouptable[input[1]][3], grouptable[input[1]][4], grouptable[input[1]][5], grouptable[input[1]][6], grouptable[input[1]][7], grouptable[input[1]][8], grouptable[input[1]][9], grouptable[input[1]][10], grouptable[input[1]][11], grouptable[input[1]][12], tempint);
+	/*
+	qwert = intimp();
+	workinggr[15] = qwert;
+	tempint = qwert >> 8;
+	workinggr[14] = tempint;
+	tempint = tempint >> 8;
+	workinggr[13] = tempint;
+	*/
+	refresh();
+	return 0;
+};
+
+int viewitgr()
+{
+	wprintw(stdscr, "Please type the item group number.\n");
+	input[1] = intimp();
+	wprintw(stdscr, "Item #, drop probability\n#0. %d, %d\n#1. %d, %d\n#2. %d, %d\n#3. %d, %d\n#4. %d, %d\n#5. %d, %d\n#6. %d, %d\n#7. %d, %d\n", itemgrouptable[input[1]][0], itemgrouptable[input[1]][1], itemgrouptable[input[1]][2], itemgrouptable[input[1]][3], itemgrouptable[input[1]][4], itemgrouptable[input[1]][5], itemgrouptable[input[1]][6], itemgrouptable[input[1]][7], itemgrouptable[input[1]][8], itemgrouptable[input[1]][9], itemgrouptable[input[1]][10], itemgrouptable[input[1]][11], itemgrouptable[input[1]][12], itemgrouptable[input[1]][13], itemgrouptable[input[1]][14], itemgrouptable[input[1]][15]);
 	refresh();
 	return 0;
 };
@@ -912,6 +1072,8 @@ void plusone (char eqench)
 		workinggrnum = workinggrnum + 1;
 	if(eqench == 5)
 		workingitnum = workingitnum + 1;
+	if(eqench == 6)
+		workingitgrnum = workingitgrnum + 1;
 };
 
 void minusone (char eqench)
@@ -928,6 +1090,8 @@ void minusone (char eqench)
 		workinggrnum = workinggrnum - 1;
 	if(eqench == 5)
 		workingitnum = workingitnum - 1;
+	if(eqench == 6)
+		workingitgrnum = workingitgrnum - 1;
 };
 
 void checkone (char eqench)
@@ -944,5 +1108,7 @@ void checkone (char eqench)
 		wprintw(stdscr, "%d", workinggrnum);
 	if(eqench == 5)
 		wprintw(stdscr, "%d", workingitnum);
+	if(eqench == 6)
+		wprintw(stdscr, "%d", workingitgrnum);
 };
 

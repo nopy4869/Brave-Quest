@@ -1,0 +1,25 @@
+100 ICON "./image.ico"
+1 VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName", "Mad Science Inc."
+      VALUE "FileDescription", "Brave Quest"
+      VALUE "FileVersion", "1.0"
+      VALUE "InternalName", "ICEngine"
+      VALUE "LegalCopyright", "(C) 2015 Mad Science Inc."
+      VALUE "OriginalFilename", "BraveQuest.exe"
+      VALUE "ProductName", "Brave Quest"
+      VALUE "ProductVersion", "1.0"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1252
+  END
+END

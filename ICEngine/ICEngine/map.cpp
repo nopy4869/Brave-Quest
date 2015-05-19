@@ -12,7 +12,7 @@
 extern char input[5];
 extern char dbug;
 extern char scoord;
-extern char loadgamemenu;
+extern char gamestate;
 extern char justwarped;
 extern struct mapdata nextmap;
 extern struct mapdata currmap;
@@ -141,7 +141,7 @@ int loadmap(char mqp[])
 		wprintw(stdscr, "Map not found.\n");
 		if (dbug)
 			wprintw(stdscr, "Because the map development tools are made,\nyou can make a new map file with this name.\n");
-		if(loadgamemenu == FALSE)
+		if(gamestate != 1)
 			wprintw(stdscr, "Returning to previous map.\n");
 		scoord = 0;
 		hang(3);
@@ -335,6 +335,165 @@ int readmap (char mqp [])
 			fread(&currmap.vernum2,1,1,loadmapf);
 			//fread(&sep,1,1,loadmapf);
 			if(currmap.vernum2 == 0)
+				{
+				fread(&currmap.scripts,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				fread(&currmap.enemytf,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				fread(&currmap.npctf,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				if (currmap.npctf == TRUE)
+				{
+					fread(&currmap.npcnum,1,1,loadmapf);
+					//fread(&sep,1,1,loadmapf);
+				}
+				fread(&currmap.startmaptf,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				if (currmap.startmaptf == TRUE)
+				{
+					fread(&currmap.startx,1,1,loadmapf);
+					if(scoord == 1)
+						self.x = currmap.startx;
+					//fread(&sep,1,1,loadmapf);
+					fread(&currmap.starty,1,1,loadmapf);
+					if(scoord == 1)
+						self.y = currmap.starty;
+					if(dbug)
+						wprintw(stdscr, "Start position for this map %d,%d.\n", currmap.startx, currmap.starty);
+					//fread(&sep,1,1,loadmapf);
+				}
+				fread(&currmap.warpnum,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				for (loadmaprunx = 0; loadmaprunx < 20; loadmaprunx++)
+				{
+					fread(&currmap.mapname [loadmaprunx],1,1,loadmapf);
+				}
+				//fread(&sep,1,1,loadmapf);
+				fread(&currmap.mapx,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				fread(&currmap.mapy,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				if (dbug)
+					wprintw(stdscr, "This map is size %d,%d.\n",currmap.mapx,currmap.mapy);
+				currmap.fixedx = currmap.mapx - 1;
+				currmap.fixedy = currmap.mapy - 1;
+				for (loadmapruny = 0; loadmapruny < currmap.mapy; loadmapruny++)
+				{
+					for (loadmaprunx = 0; loadmaprunx < currmap.mapx; loadmaprunx++)
+						{
+							fread(&currmap.map [loadmaprunx][loadmapruny],1,1,loadmapf);
+							if (dbug)
+								wprintw(stdscr, "%c",currmap.map [loadmaprunx][loadmapruny]);
+							if (dbug)
+								if (loadmaprunx == currmap.fixedx)
+									wprintw(stdscr, "\n");
+						}
+				}
+				//fread(&sep,1,1,loadmapf);
+				for (loadmapruny = 0; loadmapruny < currmap.mapy; loadmapruny++)
+				{
+					for (loadmaprunx = 0; loadmaprunx < currmap.mapx; loadmaprunx++)
+						{
+							fread(&currmap.maperm [loadmaprunx][loadmapruny],1,1,loadmapf);
+							if (dbug)
+								wprintw(stdscr, "%c",currmap.maperm [loadmaprunx][loadmapruny]);
+							if (dbug)
+								if (loadmaprunx == currmap.fixedx)
+									wprintw(stdscr, "\n");
+						}
+				}
+				//fread(&sep,1,1,loadmapf);
+				if (dbug)
+					wprintw(stdscr, "Has %d warps at:\n", currmap.warpnum);
+				for (loadmapruny = 0; loadmapruny < currmap.warpnum; loadmapruny++)
+					{
+						for (loadmaprunx = 0; loadmaprunx < 13; loadmaprunx++)
+							{
+								fread(&currmap.mapwarps [loadmapruny].mapname [loadmaprunx],1,1,loadmapf);
+							}
+							fread(&currmap.mapwarps [loadmapruny].mwx [0],1,1,loadmapf);
+							//fwrite(&sep,1,1,loadmapf);
+							fread(&currmap.mapwarps [loadmapruny].mwy [0],1,1,loadmapf);
+							//fwrite(&sep,1,1,loadmapf);
+							if (dbug)
+								wprintw(stdscr, "%d, %d\n", currmap.mapwarps[loadmapruny].mwx [0],currmap.mapwarps[loadmapruny].mwy [0]);
+							fread(&currmap.mapwarps [loadmapruny].mwx [1],1,1,loadmapf);
+							//fwrite(&sep,1,1,loadmapf);
+							fread(&currmap.mapwarps [loadmapruny].mwy [1],1,1,loadmapf);
+							//fwrite(&sep,1,1,loadmapf);
+							if (dbug)
+								wprintw(stdscr, "%d, %d\n", currmap.mapwarps[loadmapruny].mwx [1],currmap.mapwarps[loadmapruny].mwy [1]);
+					}
+				//fread(&sep,1,1,loadmapf);
+				for (loadmapruny = 0; loadmapruny < currmap.scripts; loadmapruny++)
+				{
+					for (loadmaprunx = 0; loadmaprunx < 13; loadmaprunx++)
+							{
+								fread(&currmap.scriptfilename [loadmapruny].scriptfile[loadmaprunx],1,1,loadmapf);
+							}
+					//fread(&sep,1,1,file);
+					fread(&currmap.scriptfilename [loadmapruny].fdependsnum,1,1,loadmapf);
+					fread(&currmap.scriptfilename [loadmapruny].fnotifnum,1,1,loadmapf);
+					for (loadmaprunx = 0; loadmaprunx < currmap.scriptfilename [loadmapruny].fdependsnum; loadmaprunx++)
+					{
+						fread(&currmap.scriptfilename [loadmapruny].fdepends[loadmaprunx],1,1,loadmapf);
+					}
+					for (loadmaprunx = 0; loadmaprunx < currmap.scriptfilename [loadmapruny].fnotifnum; loadmaprunx++)
+					{
+						fread(&currmap.scriptfilename [loadmapruny].fnotif[loadmaprunx],1,1,loadmapf);
+					}
+				}
+				fread(&currmap.enemytf,1,1,loadmapf);
+				//fread(&sep,1,1,loadmapf);
+				if (currmap.enemytf == TRUE)
+					{
+						for (loadmapruny = 0; loadmapruny < 10; loadmapruny++)
+						{
+							fread(&currmap.enemyent [0][loadmapruny],1,1,loadmapf);
+							//fread(&sep,1,1,loadmapf);
+							fread(&currmap.enemyent [1][loadmapruny],1,1,loadmapf);
+							//fread(&sep,1,1,loadmapf);
+						}
+					}
+				if (currmap.npctf == TRUE)
+					{
+					for (loadmaprunz = 0;loadmaprunz < currmap.npcnum; loadmaprunz++)
+						{
+							fread(&currmap.people [loadmaprunz].name [0],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [1],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [2],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [3],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [4],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [5],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [6],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [7],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [8],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [9],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [10],1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].name [11],1,1,loadmapf);
+								for (loadmaprunx = 0; loadmaprunx < 13; loadmaprunx++)
+									{
+										fread(&currmap.people [loadmaprunz].scriptfile [loadmaprunx],1,1,loadmapf);
+									}
+							fread(&currmap.people [loadmaprunz].x,1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].y,1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].movetype,1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].fdependsnum,1,1,loadmapf);
+							fread(&currmap.people [loadmaprunz].fnotifnum,1,1,loadmapf);
+								for (loadmaprunx = 0; loadmaprunx < currmap.people [loadmaprunz].fdependsnum; loadmaprunx++)
+								{
+									fread(&currmap.people [loadmaprunz].fdepends[loadmaprunx],1,1,loadmapf);
+								}
+							fread(&currmap.people [loadmaprunz].fnotifnum,1,1,loadmapf);
+								for (loadmaprunx = 0; loadmaprunx < currmap.people [loadmaprunz].fnotifnum; loadmaprunx++)
+								{
+									fread(&currmap.people [loadmaprunz].fnotif[loadmaprunx],1,1,loadmapf);
+								}
+		
+						}
+					}
+			}
+			if(currmap.vernum2 == 1)
 				{
 				fread(&currmap.scripts,1,1,loadmapf);
 				//fread(&sep,1,1,loadmapf);

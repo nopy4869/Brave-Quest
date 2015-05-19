@@ -64,6 +64,10 @@ int screeneffect();
 int userinput();
 int goline();
 int makehealth();
+int makestat();
+int teachspell();
+int unlearnspell();
+int checkstat();
 int partyadd();
 int partyrm();
 int checkparty();
@@ -159,6 +163,10 @@ void runline ()
 		partyrm();
 	if(currlinebuff.command == 'c')
 		checkparty();
+	if(currlinebuff.command == 'Z')
+		makestat();
+	if(currlinebuff.command == 'z')
+		checkstat();
 	if(currlinebuff.command == '\0')
 		currlinenum++;
 };
@@ -221,15 +229,27 @@ int battle()
 };
 int checkflag()
 {
-	if(currgame.gameflags[currlinebuff.argintone][currlinebuff.arginttwo] == currlinebuff.argintthree)
+	if((currlinebuff.argintone < 1024) && (currlinebuff.arginttwo < 1024))
+	{
+		if(currgame.gameflags[currlinebuff.argintone][currlinebuff.arginttwo] == currlinebuff.argintthree)
+		{
+			currlinebuff.argintone = currlinebuff.argintfour;
+			goline();
+		}
+		else
+		{
+			currlinebuff.argintone = currlinebuff.argintfive;
+			goline();
+		}
+	}
+	else if((currlinebuff.argintone == 1024) && (currlinebuff.argintthree == currgame.battleflag))
 	{
 		currlinebuff.argintone = currlinebuff.argintfour;
 		goline();
 	}
 	else
 	{
-		currlinebuff.argintone = currlinebuff.argintfive;
-		goline();
+		return 1;
 	}
 	return 0;
 };
@@ -274,23 +294,192 @@ int checkexp()
 };
 int giveexp()
 {
-	currgame.characters[currlinebuff.argintone].exp += currlinebuff.argintone;
+	currgame.characters[currlinebuff.argintone].exp += currlinebuff.arginttwo;
 	currlinenum++;
 	return 0;
 };
 int makeexp()
 {
-	currgame.characters[currlinebuff.argintone].exp = currlinebuff.argintone;
+	currgame.characters[currlinebuff.argintone].exp = currlinebuff.arginttwo;
 	currlinenum++;
 	return 0;
 };
 int makehealth()
 {
+	if(currlinebuff.arginttwo == -1)
+		currgame.characters[currlinebuff.argintone].currhealth = currgame.characters[currlinebuff.argintone].health;
+	if(currlinebuff.arginttwo != -1)
+		currgame.characters[currlinebuff.argintone].currhealth = currlinebuff.arginttwo;
+	currlinenum++;
+	return 0;
+};
+int makestat()
+{
+	statis *stat1;
+	statis *stat2;
+	char temp[4];
+	int part[4];
+	temp[0] = (currlinebuff.argintone >> 24);
+	temp[1] = (currlinebuff.argintone >> 16);
+	temp[2] = (currlinebuff.argintone >> 8);
+	temp[3] = currlinebuff.argintone;
+	part[0] = temp[0];
+	part[1] = temp[1];
+	part[2] = temp[2];
+	part[3] = temp[3];
+	switch (part[1])
+	{
+		case '1':
+			if(part[2] == 'n')
+				stat1 = &currgame.characters[part[0]].attack;
+			if(part[2] == 'c')
+				stat1 = &currgame.characters[part[0]].currattack;
+			stat2 = &currgame.characters[part[0]].attack;
+			break;
+		case '2':
+			if(part[2] == 'n')
+				stat1 = &currgame.characters[part[0]].defence;
+			if(part[2] == 'c')
+				stat1 = &currgame.characters[part[0]].currdefence;
+			stat2 = &currgame.characters[part[0]].defence;
+			break;
+		case '3':
+			if(part[2] == 'n')
+				stat1 = &currgame.characters[part[0]].wisdom;
+			if(part[2] == 'c')
+				stat1 = &currgame.characters[part[0]].currwisdom;
+			stat2 = &currgame.characters[part[0]].wisdom;
+			break;
+		case '4':
+			if(part[2] == 'n')
+				stat1 = &currgame.characters[part[0]].resistance;
+			if(part[2] == 'c')
+				stat1 = &currgame.characters[part[0]].currresistance;
+			stat2 = &currgame.characters[part[0]].resistance;
+			break;
+		case '5':
+			if(part[2] == 'n')
+				stat1 = &currgame.characters[part[0]].speed;
+			if(part[2] == 'c')
+				stat1 = &currgame.characters[part[0]].currspeed;
+			stat2 = &currgame.characters[part[0]].speed;
+			break;
+		case '6':
+			if(part[2] == 'n')
+				stat1 = &currgame.characters[part[0]].luck;
+			if(part[2] == 'c')
+				stat1 = &currgame.characters[part[0]].currluck;
+			stat2 = &currgame.characters[part[0]].luck;
+			break;
+	}
+	float result;
+	result = (*stat1 / *stat2) * 100;
+	*stat1 = (int)result;
+	switch (part[3])
+	{
+		case 'a':
+			*stat1 = currlinebuff.arginttwo;
+			break;
+		case 'p':
+			*stat1 = (int)((float)((currlinebuff.arginttwo / 100) * *stat2));
+			break;
+	}
 	if(currlinebuff.argintone == -1)
-		currgame.characters[currlinebuff.argintone].currhealth = currgame.characters[currlinebuff.argintone].currhealth;
+		currgame.characters[currlinebuff.argintone].currhealth = currgame.characters[currlinebuff.argintone].health;
 	if(currlinebuff.argintone != -1)
 		currgame.characters[currlinebuff.argintone].currhealth = currlinebuff.argintone;
 	currlinenum++;
+	return 0;
+};
+int checkstat()
+{
+	statis stat;
+	statis stat2;
+	char temp[4];
+	int part[4];
+	temp[0] = (currlinebuff.argintone >> 24);
+	temp[1] = (currlinebuff.argintone >> 16);
+	temp[2] = (currlinebuff.argintone >> 8);
+	temp[3] = currlinebuff.argintone;
+	part[0] = temp[0];
+	part[1] = temp[1];
+	part[2] = temp[2];
+	part[3] = temp[3];
+	switch (part[1])
+	{
+		case '1':
+			if(part[2] == 'n')
+				stat = currgame.characters[part[0]].attack;
+			if(part[2] == 'c')
+				stat = currgame.characters[part[0]].currattack;
+			stat2 = currgame.characters[part[0]].attack;
+			break;
+		case '2':
+			if(part[2] == 'n')
+				stat = currgame.characters[part[0]].defence;
+			if(part[2] == 'c')
+				stat = currgame.characters[part[0]].currdefence;
+			stat2 = currgame.characters[part[0]].defence;
+			break;
+		case '3':
+			if(part[2] == 'n')
+				stat = currgame.characters[part[0]].wisdom;
+			if(part[2] == 'c')
+				stat = currgame.characters[part[0]].currwisdom;
+			stat2 = currgame.characters[part[0]].wisdom;
+			break;
+		case '4':
+			if(part[2] == 'n')
+				stat = currgame.characters[part[0]].resistance;
+			if(part[2] == 'c')
+				stat = currgame.characters[part[0]].currresistance;
+			stat2 = currgame.characters[part[0]].resistance;
+			break;
+		case '5':
+			if(part[2] == 'n')
+				stat = currgame.characters[part[0]].speed;
+			if(part[2] == 'c')
+				stat = currgame.characters[part[0]].currspeed;
+			stat2 = currgame.characters[part[0]].speed;
+			break;
+		case '6':
+			if(part[2] == 'n')
+				stat = currgame.characters[part[0]].luck;
+			if(part[2] == 'c')
+				stat = currgame.characters[part[0]].currluck;
+			stat2 = currgame.characters[part[0]].luck;
+			break;
+	}
+	float result;
+	result = (stat/stat2) * 100;
+	stat = (int)result;
+	switch (part[3])
+	{
+		case 'a':
+			if((stat > currlinebuff.arginttwo) && (stat < currlinebuff.argintthree))
+			{
+				currlinebuff.argintone = currlinebuff.argintfour;
+				goline();
+			}
+			else
+			{
+				currlinebuff.argintone = currlinebuff.argintfive;
+				goline();
+			}
+			break;
+		case 'p':
+			if((stat > currlinebuff.arginttwo) && (stat < currlinebuff.argintthree))
+			{
+				currlinebuff.argintone = currlinebuff.argintfour;
+				goline();
+			}
+			else
+			{
+				currlinebuff.argintone = currlinebuff.argintfive;
+				goline();
+			}
+			break;
+	}
 	return 0;
 };
 int execscript()
@@ -429,6 +618,7 @@ void cleanlinebuff ()
 
 int parsescript(char scriptname[13])
 {
+	silentsave();
 	int count = 0;
 	currlinenum = 0;
 	if (loadscript(scriptname) == 1)

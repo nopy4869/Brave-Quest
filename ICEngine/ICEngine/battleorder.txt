@@ -1,0 +1,12 @@
+Set up the screen for battling
+run the battle loop
+
+Choose a move
+determine the attack order based on absolute speed stats
+pick a move for the enemy
+do the battle
+
+lather rinse repeat
+
+when enemy dies, roll the loot
+give experience based on the 3 byte exp. identifier.

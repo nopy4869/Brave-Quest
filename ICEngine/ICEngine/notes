@@ -1,0 +1,31 @@
+scripted AI
+	very minimalistic
+	used to simulate a person controlling the enemy AI
+	
+	Really more like a spell lookup table. I imagine using a sort of
+	switch-case loop to select classes of attacks, then the particular
+	attack
+
+
+scripted spells
+	Not as minimalist as AI, it can apply an effect, compare stats,
+	change stats (Not permanent!!!!!)
+	I imagine a group of commands, such as
+		AddStat(stat number, integer)									A/a
+		SubStat(stat number, integer)									S/s
+		MultStat(stat number, float)									M/m
+		DivStat(stat number, float factor)								D/d
+		ChangeStat(stat number, integer)								C/c
+		BranchStat(stat number, condition(l/e/g), line number)			b/u/B
+		
+		Capital Vs. Lower determines whether or not the integer/float is
+			a random number				Cap for Rand, Low for nonrand
+	Also includes metadata about the spell (animation, type of spell,
+		relative strength, who it affects)
+	
+	Target's stats are mapped to the first 7 stats, caster's to the next 7,
+		then everyone else on the field (including caster and target)
+
+
+DO NOT FORGET TO ADD THE PACKER FUNCTIONS FROM SPELLER'S COMMONFUNCTIONS
+	TO BRAVE QUEST!!!!!

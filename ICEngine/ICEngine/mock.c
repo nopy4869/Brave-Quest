@@ -67,13 +67,13 @@ int main(int argc, char *argv[])
 			mvwprintw(battlewin[6], 0, x, "-");
 		}
 		wprintw(battlewin[0], "What would you\nlike to do?");
-		mvwprintw(battlewin[1], 0, 1, "Moves1");
-		mvwprintw(battlewin[1], 0, (COLS/4)+1, "Moves2");
-		mvwprintw(battlewin[1], 1, 1, "Moves3");
-		mvwprintw(battlewin[1], 1, (COLS/4)+1, "Moves4");
+		mvwprintw(battlewin[1], 0, 1, "|Attack");
+		mvwprintw(battlewin[1], 0, (COLS/4)+1, "Magic");
+		mvwprintw(battlewin[1], 1, 1, "|Item");
+		mvwprintw(battlewin[1], 1, (COLS/4)+1, "Run");
 		wprintw(battlewin[2], "Everyone");
 		wprintw(battlewin[3], "Party");
-		wprintw(battlewin[4], "Enemies");
+		wprintw(battlewin[4], "|Enemies\n|\n|");
 		refresh();
 	}
 	endwin();

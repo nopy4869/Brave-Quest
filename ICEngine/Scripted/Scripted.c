@@ -7,10 +7,10 @@
 #include <ctype.h>
 #include <ncurses.h>
 
-#define TRUE 1
+//#define TRUE 1
 #define FALSE 0
 #define VERSION '\x01'
-#define VERSION2 '\x00'
+#define VERSION2 '\x01'
 
 char scriptedvernum = VERSION;
 char scriptedvernum2 = VERSION2;
@@ -64,6 +64,10 @@ int warp();
 int checkexp();
 int giveexp();
 int makeexp();
+int checkstat();
+int makestat();
+int teachspell();
+int unlearnspell();
 int execscript();
 int screeneffect();
 int userinput();
@@ -108,7 +112,7 @@ int main(int argc, char* argv[])
 	{
 		wprintw(stdscr, "q= give, w= take, e= say, r= flag, t= move, y= battle, u= check flag, i= check item, o= party add, p= party remove, [ = check character\n");
 		wprintw(stdscr, "a= warp, s= check experience, d= give experience, f= make experience, g= exec script, h= screen effect, j= user input, k= goline, l= make health\n");
-		wprintw(stdscr, "m= blank, ,= show line, .= change line.\n");
+		wprintw(stdscr, "b= check stat, n= make stat, m= blank, ,= show line, .= change line.\n");
 		input[0] = bie();
 		if(input[0] == 27)
 			menu();
@@ -152,6 +156,14 @@ int main(int argc, char* argv[])
 			goline();
 		if(input[0] == 'l')
 			makehealth();
+		if(input[0] == 'z')
+			teachspell();
+		if(input[0] == 'x')
+			unlearnspell();
+		if(input[0] == 'b')
+			checkstat();
+		if(input[0] == 'n')
+			makestat();
 		if(input[0] == 'm')
 			blank();
 		if(input[0] == ',')
@@ -216,7 +228,7 @@ int loadscript (char openfile [13])
 
 int savescript (char openfile [13])
 {
-	for(;filebuff[linenum].command != '\0';linenum++){}
+//	for(;filebuff[linenum].command != '\0';linenum++){}
 	
 	wprintw(stdscr, "Saving ");
 	savefile = fopen(openfile,"wb");
@@ -503,6 +515,144 @@ int makehealth()
 	currlinebuff.argintone = intimp();
 	wprintw(stdscr, "Type amount.\n");
 	currlinebuff.arginttwo = intimp();
+	wprintw(stdscr, "Commiting to Script file buffer\n");
+	filebuff[currlinenum].command = currlinebuff.command;
+	filebuff[currlinenum].argintone = currlinebuff.argintone;
+	filebuff[currlinenum].arginttwo = currlinebuff.arginttwo;
+	currlinenum++;
+	return 0;
+};
+
+int checkstat()
+{
+	char part[4];
+	cleanlinebuff();
+	wprintw(stdscr, "Insert 'Check Stat'?\n Press 'n' to go back.\n");
+	if(bie() == 'n')
+		return 2;
+	currlinebuff.command = 'z';
+	wprintw(stdscr, "Type Character ID.\n");
+	part[0] = intimp();
+	wprintw(stdscr, "Type Stat number. 1 for attack, 2 for defence, 3 for wisdom, 4 for resistance\n5 for speed, 6 for luck.\n");
+	part[1] = intimp();
+	for(;;)
+	{
+		wprintw(stdscr, "Type \'c\' to check currstat or \'n\' to check regular stat.\n");
+		part[2] = bie();
+		if((part[2] == 'c')||(part[2] == 'n'))
+		{
+			break;
+		}
+		wprintw(stdscr, "Please type \'c\' or \'n\'.\n");
+	}
+	for(;;)
+	{
+		wprintw(stdscr, "Type \'a\' to check actual experience or \'p\' to check percentage of whole.\n");
+		part[3] = bie();
+		if((part[3] == 'p')||(part[3] == 'a'))
+		{
+			break;
+		}
+		wprintw(stdscr, "Please type \'a\' or \'p\'.\n");
+	}
+	currlinebuff.argintone = 0;
+	currlinebuff.argintone += (part[0] << 24);
+	currlinebuff.argintone += (part[1] << 16);
+	currlinebuff.argintone += (part[2] << 8);
+	currlinebuff.argintone +=  part[3];
+	wprintw(stdscr, "Type lower bound.\n");
+	currlinebuff.arginttwo = intimp();
+	wprintw(stdscr, "Type upper bound.\n");
+	currlinebuff.argintthree = intimp();
+	wprintw(stdscr, "Type line to go for true case.\n");
+	currlinebuff.argintfour = intimp();
+	wprintw(stdscr, "Type line to go for false case.\n");
+	currlinebuff.argintfive = intimp();
+	wprintw(stdscr, "Commiting to Script file buffer\n");
+	filebuff[currlinenum].command = currlinebuff.command;
+	filebuff[currlinenum].argintone = currlinebuff.argintone;
+	filebuff[currlinenum].arginttwo = currlinebuff.arginttwo;
+	filebuff[currlinenum].argintthree = currlinebuff.argintthree;
+	filebuff[currlinenum].argintfour = currlinebuff.argintfour;
+	filebuff[currlinenum].argintfive = currlinebuff.argintfive;
+	currlinenum++;
+	return 0;
+};
+
+int makestat()
+{
+	char part[4];
+	cleanlinebuff();
+	wprintw(stdscr, "Insert 'Make Stat'?\n Press 'n' to go back.\n");
+	if(bie() == 'n')
+		return 2;
+	currlinebuff.command = 'Z';
+	wprintw(stdscr, "Type Character ID.\n");
+	part[0] = intimp();
+	wprintw(stdscr, "Type Stat number.\n");
+	part[1] = intimp();
+	for(;;)
+	{
+		wprintw(stdscr, "Type \'c\' to set currstat or \'n\' to set regular stat.\n");
+		part[2] = bie();
+		if((part[2] == 'c')||(part[2] == 'n'))
+		{
+			break;
+		}
+		wprintw(stdscr, "Please type \'c\' or \'n\'.\n");
+	}
+	for(;;)
+	{
+		wprintw(stdscr, "Type \'a\' to set actual experience or \'p\' to set percentage of whole.\n");
+		part[3] = bie();
+		if((part[3] == 'p')||(part[3] == 'a'))
+		{
+			break;
+		}
+		wprintw(stdscr, "Please type \'a\' or \'p\'.\n");
+	}
+	currlinebuff.argintone = 0;
+	currlinebuff.argintone += (part[0] << 24);
+	currlinebuff.argintone += (part[1] << 16);
+	currlinebuff.argintone += (part[2] << 8);
+	currlinebuff.argintone +=  part[3];
+	wprintw(stdscr, "Type the amount to increase by.\n");
+	currlinebuff.arginttwo = intimp();
+	filebuff[currlinenum].command = currlinebuff.command;
+	filebuff[currlinenum].argintone = currlinebuff.argintone;
+	filebuff[currlinenum].arginttwo = currlinebuff.arginttwo;
+	currlinenum++;
+	return 0;
+};
+int teachspell()
+{
+	cleanlinebuff();
+	wprintw(stdscr, "Insert 'Teach Spell'?\n Press 'n' to go back.\n");
+	if(bie() == 'n')
+		return 2;
+	currlinebuff.command = 'T';
+	wprintw(stdscr, "Teach Spell to who?\n");
+	currlinebuff.argintone = intimp();
+	wprintw(stdscr, "What spell ID.\n");
+	currlinebuff.arginttwo = bie();
+	wprintw(stdscr, "Commiting to Script file buffer\n");
+	filebuff[currlinenum].command = currlinebuff.command;
+	filebuff[currlinenum].argintone = currlinebuff.argintone;
+	filebuff[currlinenum].arginttwo = currlinebuff.arginttwo;
+	currlinenum++;
+	return 0;
+};
+int unlearnspell()
+{
+	cleanlinebuff();
+	wprintw(stdscr, "Insert 'Unlearn Spell'?\n Press 'n' to go back.\n");
+	if(bie() == 'n')
+		return 2;
+	currlinebuff.command = 'U';
+	wprintw(stdscr, "Remove spell from who?\n");
+	currlinebuff.argintone = intimp();
+	wprintw(stdscr, "What spell ID.\n");
+	currlinebuff.arginttwo = bie();
 	wprintw(stdscr, "Commiting to Script file buffer\n");
 	filebuff[currlinenum].command = currlinebuff.command;
 	filebuff[currlinenum].argintone = currlinebuff.argintone;

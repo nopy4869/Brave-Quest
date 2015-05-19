@@ -112,3 +112,20 @@ int sintimp()
 	count = strtol(tempstring, &first, 10);
 	return count;
 };
+
+int sdubimp()
+{
+	long int count;
+	char *first;
+	for(count = 0; count < 19; count++){
+		tempstring[count] = bie();
+		if((tempstring[count] == '\n') || (tempstring[count] == 10) || (tempstring[count] == 13) || (tempstring[count] == 27)){
+			tempstring[count] = '\0';
+			count = 19;
+		}
+	}
+	tempstring[19] = '\0';
+	count = strtod(tempstring, &first);
+	return count;
+};
+

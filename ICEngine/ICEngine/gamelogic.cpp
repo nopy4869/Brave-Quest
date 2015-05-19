@@ -15,7 +15,7 @@ int parsescript();
 extern char input [5];  //change if necessary
 extern char dbug;
 extern char scoord;
-extern char loadgamemenu;
+extern char gamestate;
 extern char alreadybeendone;
 extern char justwarped;
 
@@ -74,14 +74,45 @@ int hang (int howlonghang)
 	}
 	return 0;
 };
-
-int diceroll ()
+/*
+int nbhang (int howlonghang)
+{
+	int lol;
+	int templocaltime;
+	#ifndef LINUX
+		templocaltime = _time32(NULL);
+	#endif
+	#ifdef LINUX
+		templocaltime = time(&temploctim);
+	#endif
+	char check = 0;
+	while(check != ERR)
+	{
+		check = nbi();
+	}
+	lol = templocaltime + howlonghang;
+	while(check != ERR)
+	{
+		check = nbi();
+		#ifndef LINUX
+			templocaltime = _time32(NULL);
+		#endif
+		#ifdef LINUX
+			templocaltime = time(&temploctim);
+		#endif
+		if(lol == templocaltime)
+			break;
+	}
+	return 0;
+};
+*/
+int diceroll()
 {
 	int diceroll;
 	srand ((unsigned)time(NULL));
 	diceroll = rand() % 100;
 	diceroll = diceroll + 1;
-	return (diceroll);
+	return diceroll;
 };
 
 int warpfollow(int warpx, int warpy, char scoordval)
@@ -203,7 +234,7 @@ int configed ()
 
 void begmen()
 {
-	loadgamemenu = 1;
+	gamestate = 1;
 	char inp;
 	begwin = derwin(stdscr, 3, 0, self.config.halfscreenheight + 2, self.config.halfscreenwidth - 5);
 	if(LINES != self.config.screenheight)
@@ -226,6 +257,7 @@ void begmen()
 	mede = 0;
 	meic = 0;
 	fest = 0;
+	begmendisp();
 	while(fest != 127)
 	{
 		inp = bi();
@@ -233,11 +265,14 @@ void begmen()
 			begparseinp(inp);
 		begmendisp();
 	}
+	gamestate = 0;
 };
 
 void begmenmove(char dir)
 {
-	char test;
+	char test, test2;
+	test = 0;
+	test2 = 0;
 	if((dir == 'u')&&(meic != 0))
 		meic--;
 	if((dir == 'd')&&(meic != 2))
@@ -248,15 +283,19 @@ void begmenmove(char dir)
 		test = loadmap(currgame.startmap);
 		if(test == 0)
 		{
-			loadgamemenu = FALSE;
+			gamestate = 0;
 			fest = 127;
 			display();
-			parsescript(currgame.startscript);
+			test2 = parsescript(currgame.startscript);
 			return;
 		}
 		if(test == 1)
 		{
 			wprintw(stdscr, "Loading game failed.\n");
+		}
+		if(test2 == 1)
+		{
+			wprintw(stdscr, "Loading script failed.\n");
 		}
 	}
 	
@@ -264,13 +303,30 @@ void begmenmove(char dir)
 	{
 		mede++;
 		meic = 0;
+		return;
+	}
+	if((dir == 'r')&&(mede == 1))
+	{
+		clear();
+		if(silentload(meic) != 1)
+		{
+			fest = 127;
+			return;
+		}
+		wprintw(stdscr, "Failed to load the save file.\n");
+		refresh();
+		hang(3);
 	}
 	if((dir == 'r')&&(mede != 1)&&(meic == 2))
+	{
 		configed();
+		return;
+	}
 	if((dir == 'l')&&(mede == 1))
 	{
 		mede--;
 		meic = 1;
+		return;
 	}
 }
 
@@ -289,8 +345,9 @@ void begparseinp(int but)
 void begmendisp()
 {
 	clear();
-	wclear(botlin);
+//	wclear(botlin);
 	int frunx, fruny;
+	
 	if(LINES != self.config.screenheight)
 	{
 		clear();
@@ -299,7 +356,7 @@ void begmendisp()
 		delwin(special[4]);
 		delwin(begwin);
 		delwin(bannerwin);
-		delwin(botlin);
+//		delwin(botlin);
 		special[4] = derwin(stdscr, 1, 0, LINES - 3, 0);
 		special[2] = derwin(stdscr, 1, 0, LINES - 2, 0);
 		special[3] = derwin(stdscr, 1, 0, LINES - 1, 0);
@@ -310,9 +367,11 @@ void begmendisp()
 		self.config.halfscreenheight = (self.config.screenheight / 2) - 2;
 		self.config.screenwidth = COLS - 4;
 		self.config.halfscreenwidth = self.config.screenwidth / 2;
-		begwin = derwin(stdscr, 3, 0, self.config.halfscreenheight + 2, self.config.halfscreenwidth - 5);
+		begwin = derwin(stdscr, 3, 15, self.config.halfscreenheight + 2, self.config.halfscreenwidth - 5);
 		bannerwin = derwin(stdscr, 5, 36, self.config.halfscreenheight - 4, self.config.halfscreenwidth - 18);
-		botlin = derwin(stdscr, 1, 0, self.config.halfscreenheight, 0);
+		scrollok(bannerwin, FALSE);
+		scrollok(begwin, FALSE);
+//		botlin = derwin(stdscr, 1, 0, self.config.halfscreenheight, 0);
 	}
 	for(frunx = 0; frunx < 4; frunx++)
 	{
@@ -323,10 +382,29 @@ void begmendisp()
 	};
 	wclear(begwin);
 	if(mede == 0)
-		wprintw(begwin, " New Game\n Load Game\n Edit buttons\n");
+		mvwprintw(begwin, 0, 0, " New Game\n Load Game\n Edit buttons");
 	if(mede == 1)
-		wprintw(begwin, " File 1\n File 2\n File 3\n");
+		mvwprintw(begwin, 0, 0, " File 1\n File 2\n File 3");
 	mvwprintw(begwin, meic, 0, ">");
 	refresh();
 }
 
+int floatpacker(float f)
+{
+	union int_to_float {
+		float f;
+		int i;
+	} itf;
+	itf.f = f;
+	return itf.i;
+}
+
+float intpacker(int i)
+{
+	union int_to_float {
+		float f;
+		int i;
+	} itf;
+	itf.i = i;
+	return itf.f;
+}

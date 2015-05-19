@@ -11,7 +11,7 @@
 extern WINDOW *special[5];
 extern char dbug;
 extern char showmenu;
-extern char loadgamemenu;
+extern char gamestate;
 extern struct mapdata currmap;
 extern struct player self;
 extern int lastframetime;

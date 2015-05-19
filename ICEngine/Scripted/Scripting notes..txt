@@ -12,10 +12,10 @@ int flag();				f
 	int2	newstate			imp
 int move();				m
 	int1	who							NOTE: An amount of -1 means PLAYER!!!
-	int2	direction
+	int2	direction			imp~
 int battle();			b
 	int1	enemy ID
-	int2	base stat
+	int2	base stat			imp~
 int checkflag();		F
 	int1	flag ID1
 	int2	flag ID2
@@ -44,28 +44,43 @@ int giveexp();			e
 int makeexp();			M
 	int1	CharacterID
 	int2	Amount				imp
-int makehealth();		H
+int makehealth();		H		
 	int1	CharacterID					NOTE: An amount of -1 means FULL HEALTH!!!
+	int2	Amount				imp
+int checkstat();		z
+	int1	character ID				NOTE: This is a BYTE MASKED INT! First byte is character ID, second is stat to check
+	int2	lower bound						 third is whether to check the currstat or the regular, fourth is absolute/percentile
+	int3	upper bound
+	int4	true line
+	int5	false line
+int makestat();			Z
+	int1	character ID				NOTE: This is a BYTE MASKED INT! First byte is character ID, second is stat to make
+	int2	Amount							 third is whether to set the currstat or the regular, fourth is absolute/percentile
+int teachspell();		T
+	int1	character ID
+	int2	Amount				imp
+int unlearnspell();		U
+	int1	character ID
 	int2	Amount				imp
 int execscript();		x
 	str1	filename			imp
 int screeneffect();		C
-	int1	effectnumber		sorta imp
+	int1	effectnumber		imp~
 int userinput();		u
 	int1	flag ID1
 	int2	flag ID2			imp
 int goline();			G
 	int1	line number			imp
 int partyadd();			a
-	int1	character number			NOTE: Always adds to the FIRST open party slot
+	int1	character number	imp		NOTE: Always adds to the FIRST open party slot
 int partyrm();			d
-	int1	character number			NOTE: WILL TRY TO ENSURE NO EMPTY PARTY SLOTS BETWEEN PARTY MEMBERS!
+	int1	character number	imp		NOTE: WILL TRY TO ENSURE NO EMPTY PARTY SLOTS BETWEEN PARTY MEMBERS!
 int checkchar();		c
 	int1	check type					NOTE: A type one check will return true if there is 1 empty space,
 	int2	Character ID					 whereas a type zero will only check if member x is in your party.
 	int3	Check state	
 	int4	true line					NOTE: ONE FINAL NOTE: EMPTY CHARACTER VALUES ARE 32!!! NOT 0!!!
-	int5	false line
+	int5	false line			imp
 
 
 string1			13

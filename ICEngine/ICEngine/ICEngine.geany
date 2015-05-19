@@ -1,3 +1,4 @@
+
 [file_prefs]
 final_new_line=false
 ensure_convert_new_lines=false
@@ -14,7 +15,7 @@ indent_mode=2
 
 [project]
 name=ICEngine
-base_path=/home/nopy/code/Brave-Quest/Brave-Quest/ICEngine/ICEngine
+base_path=P:\\Code\\PCProjects\\Brave-Quest-master\\ICEngine\\ICEngine\\
 description=The InternalCombustionEngine for BRAVE QUEST!!!
 file_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.h;*.H;
 
@@ -23,15 +24,28 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=8683;C;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fbattle.c;0;4
-FILE_NAME_1=11979;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2FICEngine.cpp;0;4
-FILE_NAME_2=488;C;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Flinux.c;0;4
-FILE_NAME_3=1004;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fgamelogic.cpp;0;4
-FILE_NAME_4=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fgamelogictypedefs.cpp;0;4
-FILE_NAME_5=7603;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fmove.cpp;0;4
-FILE_NAME_6=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Fvardefs.cpp;0;4
-FILE_NAME_7=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fnopy%2Fcode%2FBrave-Quest%2FBrave-Quest%2FICEngine%2FICEngine%2Funidefs.cpp;0;4
+current_page=16
+FILE_NAME_0=741;C;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Clinux.c;0;4
+FILE_NAME_1=1263;C;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cbattle.c;0;4
+FILE_NAME_2=283;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5CDisplay.cpp;0;4
+FILE_NAME_3=6250;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cgamelogic.cpp;0;4
+FILE_NAME_4=0;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cgamelogictypedefs.cpp;0;4
+FILE_NAME_5=779;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5CICEngine.cpp;0;4
+FILE_NAME_6=4194;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cmap.cpp;0;4
+FILE_NAME_7=0;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cmathstuf.cpp;0;4
+FILE_NAME_8=0;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cmove.cpp;0;4
+FILE_NAME_9=0;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Csave.cpp;0;4
+FILE_NAME_10=3668;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cscripts.cpp;0;4
+FILE_NAME_11=0;C;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Ctables.c;0;4
+FILE_NAME_12=1529;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cunidefs.cpp;0;4
+FILE_NAME_13=503;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cvardefs.cpp;0;4
+FILE_NAME_14=0;None;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5Cgameinfo.txt;0;4
+FILE_NAME_15=75;None;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CICEngine%5CSomegame%5CSomegame.igi;0;4
+FILE_NAME_16=877;C;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CSensei%5CSensei.c;0;4
+FILE_NAME_17=1269;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CSensei%5CCommon%20functions.cpp;0;4
+FILE_NAME_18=17932;C;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CScripted%5CScripted.c;0;4
+FILE_NAME_19=0;C++;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CScripted%5CCommon%20functions.cpp;0;4
+FILE_NAME_20=1474;None;0;EUTF-8;1;1;0;J%3A%5CBrave-Quest-master%5CICEngine%5CScripted%5CScripting%20notes..txt;0;4
 
 [VTE]
 last_dir=/home/nopy/code/ICEngine
@@ -44,26 +58,26 @@ generate_tags=false
 
 [build-menu]
 NF_03_LB=Build the ICEngine
-NF_03_CM=\sgcc -Wall -o "/home/nopy/code/ICEngine/linux" "/home/nopy/code/Brave-Quest/Brave-Quest/ICEngine/ICEngine/linux.c" -lncurses -lm
+NF_03_CM=gcc -Wall -o "%e" "%f" -lcurses -lm
 NF_03_WD=
 CFT_02_LB=Build with ncurses
-CFT_02_CM=\sgcc -Wall -o "/home/nopy/code/ICEngine/%e" "%f" -lncurses -lm
+CFT_02_CM=\sgcc -Wall -o "%e" "%f" -lcurses -lm
 CFT_02_WD=
 filetypes=C;C++;
 EX_00_LB=Debug
-EX_00_CM=lxterminal --command="gdb /home/nopy/code/ICEngine/%e" --working-directory="/home/nopy/code/ICEngine/"
+EX_00_CM=gdb %d/%e
 EX_00_WD=
-EX_01_LB=Run ICE
-EX_01_CM=lxterminal --command="/home/nopy/code/ICEngine/linux gac" --working-directory="/home/nopy/code/ICEngine/"
+EX_01_LB=Run
+EX_01_CM=%d/%e
 EX_01_WD=
 NF_00_LB=Make
 NF_00_CM=make
 NF_00_WD=
 NF_01_LB=Debug
-NF_01_CM=gcc -Wall -g -o "/home/nopy/code/ICEngine/%e" "%f"
+NF_01_CM=gcc -Wall -g -o "%e" "%f"
 NF_01_WD=
 NF_02_LB=Debug build with ncurses
-NF_02_CM=gcc -Wall -g -o "/home/nopy/code/ICEngine/%e" "%f" -lncurses -lm
+NF_02_CM=gcc -Wall -g -o "%e" "%f" -lcurses -lm
 NF_02_WD=
 CFT_00_LB=_Compile
 CFT_00_CM=gcc -Wall -c "%f"
