@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 #include <ctype.h>
-#include <ncurses.h>
+//#include <ncurses.h>
 #include <string.h>
 #include <time.h>
 #include <math.h>
