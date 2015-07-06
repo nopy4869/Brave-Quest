@@ -231,3 +231,4 @@ pip-log.txt
 *.exe
 *.geany
 geany_run_script.bat
+*.res
