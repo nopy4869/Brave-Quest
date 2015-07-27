@@ -24,9 +24,10 @@ char gamestate;
  * 			3 (pause menu)
  * 			4 (script)
  * 			5 (battle)
+ * 			6 (debug menu)
  * 
  */
-enum states {OUT_OF_GAME, BANNER_MENU, GAME, PAUSE, SCRIPT, BATTLE};
+enum states {OUT_OF_GAME, BANNER_MENU, GAME, PAUSE, SCRIPT, BATTLE, DBUG};
 
 
 

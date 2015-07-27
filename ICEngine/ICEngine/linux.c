@@ -1,6 +1,6 @@
 /*GCC compile file for the InternalCombustionEngine!!!!!!!!!!
  It's about friggin time I made this!
- Copyright 2013 nopy4869 a.k.a. Ian McWhorter :P
+ Copyright 2015 nopy4869 a.k.a. Ian McWhorter :P
  Some of the rest of the game engine, of course, is courtesy of
  the year 2010!(and all the ones since!)*/
 
